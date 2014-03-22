@@ -36,12 +36,46 @@ def main():
 
 
 class Adventurer:
-    name = "John Smith"
-    bright_sources = 0
-    dim_sources = 0
-
     def __init__(self, name):
         self.name = name
+        self.bright_sources = 0
+        self.dim_sources = 0
+        self.torches_available = 0
+        self.candles_available = 0
+        self.lantern_available = False
+        self.lantern_oil_available = 0
+    def add_torches(self, torches):
+        self.torches_available += torches
+
+    def add_candles(self, candles):
+        self.candles_available += candles
+
+    def add_lantern(self):
+        self.lantern_available = True
+
+    def add_lantern_oil(self, oil_count):
+        self.lantern_oil_available += oil_count
+
+    def use_torch(self):
+        if self.torches_available > 0:
+            self.torches_available -= 1
+            return True
+        else:
+            return False
+
+    def use_candle(self):
+        if self.candles_available > 0:
+            self.candles_available -= 1
+            return True
+        else:
+            return False
+
+    def use_lantern(self):
+        if self.lantern_available and self.lantern_oil_available > 0:
+            self.lantern_oil_available -= 1
+            return True
+        else:
+            return False
 
     def print_current_lighting(self):
         print self.name + " is in " + self.calculate_lighting()
