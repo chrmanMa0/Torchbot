@@ -8,14 +8,17 @@ from lightsource import LightSource
 def print_adventurer_list(window):
     adventurer_list = current_adventure.get_adventurer_list()
     line = 1
+    lighting_position = 22
+    torches_position = 29
+    candles_position = 40
+    oil_position = 51
     for adventurer in adventurer_list:
-        adventurer_str = str(line) + " " + adventurer.get_name()
-        adventurer_str = adventurer_str + " " + adventurer.calculate_lighting()
-        adventurer_str = adventurer_str + " " + str(adventurer.torches_available) + " torches"
-        adventurer_str = adventurer_str + " " + str(adventurer.candles_available) + " candles"
+        window.addstr(line, 1, str(line) + " " + adventurer.get_name())
+        window.addstr(line, lighting_position, adventurer.calculate_lighting())
+        window.addstr(line, torches_position, str(adventurer.torches_available) + " torches")
+        window.addstr(line, candles_position, str(adventurer.candles_available) + " candles")
         if adventurer.lantern_available:
-            adventurer_str = adventurer_str + " " + str(adventurer.lantern_oil_available) + " oil flasks"
-        window.addstr(line, 1, adventurer_str)
+            window.addstr(line, oil_position, str(adventurer.lantern_oil_available) + " oil flasks")
         line += 1
 
 
