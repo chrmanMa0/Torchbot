@@ -6,16 +6,17 @@ from lightsource import Adventurer
 from lightsource import LightSource
 
 def print_adventurer_list(window):
-    adventure_list = current_adventure.get_adventurer_list()
-    for x in (0, len(adventure_list) - 1):
-        adventurer = adventure_list[x]
-        adventurer_str = str(x) + " " + adventurer.get_name()
+    adventurer_list = current_adventure.get_adventurer_list()
+    line = 1
+    for adventurer in adventurer_list:
+        adventurer_str = str(line) + " " + adventurer.get_name()
         adventurer_str = adventurer_str + " " + adventurer.calculate_lighting()
         adventurer_str = adventurer_str + " " + str(adventurer.torches_available) + " torches"
         adventurer_str = adventurer_str + " " + str(adventurer.candles_available) + " candles"
         if adventurer.lantern_available:
             adventurer_str = adventurer_str + " " + str(adventurer.lantern_oil_available) + " oil flasks"
-        window.addstr(x + 1, 1, adventurer_str)
+        window.addstr(line, 1, adventurer_str)
+        line += 1
 
 
 def print_main_command_list(window):
@@ -46,13 +47,16 @@ current_adventure = Adventure()
 stephen = Adventurer("Stephen")
 fenring = Adventurer("Fenring")
 cellos = Adventurer("Cellos")
+joe = Adventurer("Joe The Barbarian")
 stephen.add_lantern()
 stephen.add_lantern_oil(3)
 cellos.add_torches(4)
 fenring.add_candles(8)
+fenring.add_torches(3)
 current_adventure.add_adventurer(fenring)
-current_adventure.add_adventurer(cellos)
+#current_adventure.add_adventurer(cellos)
 current_adventure.add_adventurer(stephen)
+current_adventure.add_adventurer(joe)
 torch1 = LightSource("Torch", 2, 2, 2)
 torch2 = LightSource("Torch", 2, 2, 2)
 current_adventure.add_lightsource(torch1)
