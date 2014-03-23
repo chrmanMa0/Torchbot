@@ -2,8 +2,8 @@
 
 
 def main():
-    torch = LightSource(2, 2, 2)
-    candle = LightSource(4, 1, 1)
+    torch = LightSource("torch", 2, 2, 2)
+    candle = LightSource("candle", 4, 1, 1)
     cellos = Adventurer("cellos")
     fenring = Adventurer("fenring")
     stephen = Adventurer("stephen")
@@ -79,6 +79,8 @@ class Adventurer:
 
     def print_current_lighting(self):
         print self.name + " is in " + self.calculate_lighting()
+    def get_torch_count(self):
+        return self.torches_available
 
     def calculate_lighting(self):
         if self.bright_sources > 0:
@@ -106,14 +108,21 @@ class Adventurer:
     def print_dim_count(self):
         print self.name + " has " + str(self.dim_sources) + " dim sources"
 
+    def get_name(self):
+        return self.name
+
 
 class LightSource:
-    def __init__(self, time_remaining, bright_max, dim_max):
+    def __init__(self, type_name, time_remaining, bright_max, dim_max):
         self.time_remaining_ = time_remaining
         self.bright_max_ = bright_max
         self.dim_max_ = dim_max
         self.bright_lighting_list_ = []
         self.dim_lighting_list_ = []
+        self.type_name = type_name
+
+    def get_type(self):
+        return self.type_name
 
     def add_bright_light(self, recipient):
         print "list length " + str(len(self.bright_lighting_list_)) + " and max " + str(self.bright_max_)

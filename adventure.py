@@ -28,3 +28,6 @@ class Adventure:
             source.decrement_time_remaining()
         if self.turn_count % 4 == 0:
             print "Grind!"
+
+    def get_adventurer_list(self):
+        return self.adventurers
