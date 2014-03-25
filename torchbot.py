@@ -58,7 +58,7 @@ def main_command_loop(window, adventure):
         window.refresh()
 
 def add_adventurer_command(window, adventure):
-    curses.nocbreak()
+#    curses.nocbreak()
     curses.echo()
     main_maxyx = window.getmaxyx()
     add_adventurer_window_width = main_maxyx[1] / 2
@@ -68,16 +68,24 @@ def add_adventurer_command(window, adventure):
                                           main_maxyx[0] / 4,
                                           main_maxyx[1] / 4)
     add_adventurer_window.border(0)
+    add_adventurer_window.keypad(True)
     prompt_string = "Enter new adventurer's name:"
     add_adventurer_window.addstr(add_adventurer_window_height / 2,
                                 1,
                                 prompt_string)
-    new_adventurer = Adventurer(add_adventurer_window.getstr())
-    adventure.add_adventurer(new_adventurer)
+    add_adventurer_window.addstr((add_adventurer_window_height / 2) + 2, 1, "(F1 To Cancel)")
+    add_adventurer_window.move(add_adventurer_window_height / 2, len(prompt_string) + 1)
+    key = add_adventurer_window.getch()
+    if not key == curses.KEY_F1:
+        new_adventurer = Adventurer(chr(key) + add_adventurer_window.getstr())
+        adventure.add_adventurer(new_adventurer)
+        curses.cbreak()
+        curses.noecho()
+        #Now call the function to allow adding sources
+        edit_adventurer(add_adventurer_window, new_adventurer)
     curses.cbreak()
     curses.noecho()
     #Now call the function to allow adding sources
-    edit_adventurer(add_adventurer_window, new_adventurer)
 
 def edit_adventurer(window, adventurer):
     lantern_added = False
