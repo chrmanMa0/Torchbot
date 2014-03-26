@@ -53,6 +53,8 @@ def main_command_loop(window, adventure):
             break
         if(command == ord('1')):
             add_adventurer_command(window, adventure)
+        if(command == ord('2')):
+            select_adventurer_for_edit(window, adventure)
         window.move(0, 0)
         window.clear()
         window.refresh()
@@ -86,6 +88,39 @@ def add_adventurer_command(window, adventure):
     curses.cbreak()
     curses.noecho()
     #Now call the function to allow adding sources
+
+def select_adventurer_for_edit(window, adventure):
+    curses.echo()
+    main_maxyx = window.getmaxyx()
+    select_adventurer_window_width = main_maxyx[1] / 2
+    select_adventurer_window_height = main_maxyx[0] /2
+    select_adventurer_window = curses.newwin(select_adventurer_window_height,
+                                             select_adventurer_window_width,
+                                             main_maxyx[0] / 4,
+                                             main_maxyx[1] / 4)
+    select_adventurer_window.border(0)
+    select_adventurer_window.keypad(True)
+    prompt_string = "Which adventurer do you wish to edit?"
+    select_adventurer_window.addstr(select_adventurer_window_height / 2,
+                                    1,
+                                    prompt_string)
+    select_adventurer_window.addstr((select_adventurer_window_height / 2) + 2,
+                                    1,
+                                    "(F1 To Cancel)")
+    select_adventurer_window.move(select_adventurer_window_height / 2, len(prompt_string) + 1)
+    key = select_adventurer_window.getch()
+    index = -1
+    try:
+        index = int(chr(key)) - 1
+    except ValueError:
+        index = -1
+    if not key == curses.KEY_F1 and index >= 0 and len(adventure.get_adventurer_list()) > index:
+        current_adventurer = adventure.get_adventurer_list()[index]
+        curses.cbreak()
+        curses.noecho()
+        edit_adventurer(select_adventurer_window, current_adventurer)
+    curses.cbreak()
+    curses.noecho()
 
 def edit_adventurer(window, adventurer):
     lantern_added = False
